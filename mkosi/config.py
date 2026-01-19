@@ -658,10 +658,11 @@ class ToolsTreeProfile(StrEnum):
     misc = enum.auto()
     package_manager = enum.auto()
     runtime = enum.auto()
+    gui = enum.auto()
 
     @classmethod
     def default(cls) -> tuple["ToolsTreeProfile", ...]:
-        return (cls.misc, cls.package_manager, cls.runtime)
+        return (cls.misc, cls.package_manager, cls.runtime, cls.gui)
 
 
 class InitrdProfile(StrEnum):
