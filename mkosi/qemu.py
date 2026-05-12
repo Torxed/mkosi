@@ -955,7 +955,7 @@ def run_qemu(args: Args, config: Config) -> None:
 
     if config.linux:
         kernel = config.expand_linux_specifiers()
-    elif "-kernel" in args.cmdline:
+    elif "-kernel" in args.cmdline and args.cmdline[args.cmdline.index("-kernel")+1] != 'none':
         kernel = Path(args.cmdline[args.cmdline.index("-kernel") + 1])
     else:
         kernel = None
@@ -1139,7 +1139,11 @@ def run_qemu(args: Args, config: Config) -> None:
         apply_runtime_size(config, fname)
 
         kcl = []
-        if kernel:
+        if "-kernel" in args.cmdline and args.cmdline[args.cmdline.index("-kernel")+1] == 'none':
+            arg_pos = args.cmdline.index("-kernel")
+            args.cmdline.pop(arg_pos)
+            args.cmdline.pop(arg_pos)
+        elif kernel:
             cmdline += ["-kernel", kernel]
 
             if any(s.startswith("root=") for s in finalize_kernel_command_line_extra(args, config)):
